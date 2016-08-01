@@ -1,25 +1,105 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+title: "RepResearchProject"
+output: html_document
 ---
 
+The below code loads the data and pre-processes it into organized data. It also loads the dplyr package which will be used later.
 
-## Loading and preprocessing the data
+```{r}
+
+filename <- "~/data/RepResearch/activity.csv"
+stepdata <- read.csv(filename,header = TRUE)
+library(dplyr)
+
+```
+
+The below code displays the histogram of total number of steps taken by day followed by the mean and median of steps taken per day
+
+```{r}
+
+hist(x = tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), xlab = "Steps Taken each Day", main = "Frequency of Steps Taken each Day")
+
+daymean <- mean(tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
+daymedian <- median(tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
+
+```
+
+The mean is `r daymean` .
+The median is `r daymedian` .
+
+This code calculates the average daily activity pattern. By creating a time series plot of the 5 minute intervals and the average number of steps taken across all days. It lists the 5 minute interval that on average, across the days, in the data contains the maximum number of steps(ie 9 to 905 across all days was most active interval). 
+
+```{r}
+
+timeseries <- aggregate(stepdata$steps ~ stepdata$interval, FUN = mean)
+
+plot(timeseries, type = "l", xlab = "5 minute Interval", ylab = "Steps in 5 minute Interval", main = "Average steps taken during 5 Minute Intervals")
+
+topinterval <- max(timeseries, na.rm = TRUE)
+
+```
+
+The five minute interval of activity in military time is `r topinterval`
+
+This code imputs the missing values into the dataset. It does this by substituting the missing values with the mean of that day of intervals. It then creates a new dataset with the NAs filled in and a similar histogram of the total steps taken each day adn reports the mean and median after the numbers have been updated.
+
+```{r}
+
+datesubset <- split(stepdata, stepdata$date)
+
+datemean <- list()
+  
+for(i in 1:61){
+    day <- datesubset[[i]]
+    daymean <- mean(day$steps, na.rm = TRUE)
+    datemean[i] <- daymean
+    i +1
+}
+
+datemean[is.na(datemean)] <-0
+
+for(i in 1:61){
+  datesubset[[i]][is.na(datesubset[[i]])] <- datemean[i]
+}
+
+nonastepdata <- do.call("rbind", datesubset)
+
+nonastepdata$steps <- as.integer(nonastepdata$steps)
+
+hist(x = tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE), xlab = "Steps Taken each Day", main = "Frequency of Steps Taken each Day")
+
+nonamean <- mean(tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
+nonamedian <- median(tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
+
+
+```
+
+The mean of the new data is `r nonamean` and the median of the new data is `r nonamedian`. Both values are the same as before, since adding the mean value to a data set, does not change the mean of any day and by not changing the mean does not change the median of all days. 
+
+This code adds a calculated column of the day of the week to the data that has values imputted over the NAs. It then creates a two panel plot with a time series for each comparing the weekday and weekend activity.
+
+```{r}
+
+nonastepdata$date <- as.Date(nonastepdata$date)
+nonastepdata <- mutate(nonastepdata, weekday = weekdays(nonastepdata$date))
+
+weekday <- subset(nonastepdata, nonastepdata$weekday == "Monday" | nonastepdata$weekday == "Tuesday" | nonastepdata$weekday =="Wednesday" | nonastepdata$weekday =="Thursday" | nonastepdata$weekday =="Friday")
+weekend <- subset(nonastepdata, nonastepdata$weekday == "Saturday" | nonastepdata$weekday =="Sunday")
+
+par(mfrow=c(1,2))
+
+weekdaytimeseries <- aggregate(weekday$steps ~ weekday$interval, FUN = mean)
+plot(weekdaytimeseries, type = "l", xlab = "5 minute Interval", ylab = "Steps in 5 minute Interval", main = "WeekdayAverage")
+
+
+weekendtimeseries <- aggregate(weekend$steps ~ weekend$interval, FUN = mean)
+plot(weekendtimeseries, type = "l", xlab = "5 minute Interval", ylab = "Steps in 5 minute Interval", main = "WeekendAverage")
+
+
+```
 
 
 
-## What is mean total number of steps taken per day?
 
 
 
-## What is the average daily activity pattern?
-
-
-
-## Imputing missing values
-
-
-
-## Are there differences in activity patterns between weekdays and weekends?
