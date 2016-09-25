@@ -49,8 +49,8 @@ daymean <- mean(tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), 
 daymedian <- median(tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
 ```
 
-The mean day has 9354.2295082 steps.
-The median day has 10395 steps.
+The mean day has **9354.2295082** steps.
+The median day has **10395** steps.
 
 ###Time Series Plot
 
@@ -79,7 +79,7 @@ The below code calculates and lists the 5 minute interval that on average, conta
 topinterval <- max(timeseries, na.rm = TRUE)
 ```
 
-The five minute interval of activity in military time is 2355
+The most active five minute interval of activity in military time is **2355**. 
 
 ###Imputting Missing Data
 
@@ -135,7 +135,7 @@ nonamean <- mean(tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm 
 nonamedian <- median(tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
 ```
 
-The mean of the new data is 9354.2295082 and the median of the new data is 10395. 
+The mean of the new data is **9354.2295082** and the median of the new data is **10395**. 
 
 Both values are the same as before, since adding the mean value to a data set, does not change the mean of any day and by not changing the mean does not change the median of all days. 
 

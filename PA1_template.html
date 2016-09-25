@@ -146,7 +146,7 @@ hist(x = tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), xlab = 
 <pre class="r"><code>#Calculate the mean and median of the step data
 daymean &lt;- mean(tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
 daymedian &lt;- median(tapply(stepdata$steps, stepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)</code></pre>
-<p>The mean day has 9354.2295082 steps. The median day has 10395 steps.</p>
+<p>The mean day has <strong>9354.2295082</strong> steps. The median day has <strong>10395</strong> steps.</p>
 </div>
 <div id="time-series-plot" class="section level3">
 <h3>Time Series Plot</h3>
@@ -163,7 +163,7 @@ plot(timeseries, type = &quot;l&quot;, xlab = &quot;5 minute Interval&quot;, yla
 <p>The below code calculates and lists the 5 minute interval that on average, contains the maximum number of steps.</p>
 <pre class="r"><code>#Calculate the top interval
 topinterval &lt;- max(timeseries, na.rm = TRUE)</code></pre>
-<p>The five minute interval of activity in military time is 2355</p>
+<p>The most active five minute interval of activity in military time is <strong>2355</strong>.</p>
 </div>
 <div id="imputting-missing-data" class="section level3">
 <h3>Imputting Missing Data</h3>
@@ -206,7 +206,7 @@ hist(x = tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE),
 <pre class="r"><code>#Calculating the mean and median of the imputted data
 nonamean &lt;- mean(tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)
 nonamedian &lt;- median(tapply(nonastepdata$steps, nonastepdata$date, FUN = sum, na.rm = TRUE), na.rm = TRUE)</code></pre>
-<p>The mean of the new data is 9354.2295082 and the median of the new data is 10395.</p>
+<p>The mean of the new data is <strong>9354.2295082</strong> and the median of the new data is <strong>10395</strong>.</p>
 <p>Both values are the same as before, since adding the mean value to a data set, does not change the mean of any day and by not changing the mean does not change the median of all days.</p>
 </div>
 <div id="differentiating-weekday-and-weekend-data" class="section level3">
